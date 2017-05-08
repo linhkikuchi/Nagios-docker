@@ -25,7 +25,7 @@ RUN cd /tmp/Net--RabbitMQ-0.2.8 && perl Makefile.PL && make && make install
 ADD supervisord.conf /etc/supervisord.conf
 
 # add ldap config for nagios
-ADD nagios.conf /etc/httpd/conf.d/nagios.conf
+ADD nagios.ldap.conf /etc/httpd/conf.d/nagios.conf
 
 EXPOSE 80
 
