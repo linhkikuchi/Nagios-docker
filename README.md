@@ -43,6 +43,7 @@ To build the docker image
 docker build -t nagios .
 ```
 To run the docker image
+(redirect to port 8080 on the host, so that we can change httpd config on the host to forward port 8080 to 443 (https)
 ```
 docker run -v /nagios-data/nagios:/etc/nagios -v /nagios-data/log:/var/log/nagios -p 8080:80 -d nagios
 ```
