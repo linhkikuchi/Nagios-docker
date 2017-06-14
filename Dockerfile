@@ -1,4 +1,4 @@
-FROM centos:7 
+FROM centos:latest
 
 # Install packages, EPEL must come first 
 RUN yum -y update && yum -y install epel-release
@@ -20,12 +20,23 @@ RUN cd /tmp && tar xvzf Net--RabbitMQ-0.2.8.tgz
 RUN cd /tmp/Net--RabbitMQ-0.2.8 && perl Makefile.PL && make && make install
 
 # COPY the existing plugins if any to new server
+ADD plugins/* /usr/lib64/nagios/plugins/
+
+# add all script to local/bin
+ADD run/* /usr/local/bin/
+RUN chmod +x /usr/local/bin/*
 
 # supervisor configuration
 ADD supervisord.conf /etc/supervisord.conf
 
 # add ldap config for nagios
 ADD nagios.ldap.conf /etc/httpd/conf.d/nagios.conf
+
+# Define data volumes
+VOLUME /var/log/nagios
+VOLUME /etc/nagios
+VOLUME /var/spool/nagios
+VOLUME /etc/mod_gearman
 
 EXPOSE 80
 
